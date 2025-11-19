@@ -3,7 +3,7 @@
   <p>Researchers:</p>
   <input style="height: 20px; width: 15px; margin: 10px" [(ngModel)]="researchers">
   <p>6 RESEARCH POTIONS {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF FIGHTING </p>
-  <p>({{researchers * 23 * 6}} HOURS SKIPPED OVER 4 HOURS) {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+  <p>({{researchers * 23 * 6}} HOURS SKIPPED OVER 6 HOURS) {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
 </div>
 <h3 *ngFor="let troop of troops" style="border: 3px solid #9837ff; margin: 10px; padding: 20px; border-radius: 20px">
   TROOP: {{troop.name}} <br>
