@@ -1,9 +1,21 @@
 <h1>BOOK VALUE CALCULATOR DEV UI</h1>
 <label>PLAYER JSON DATA</label>
-<input type="text" [(ngModel)]="rawPlayerData" (input)="processRawPlayerData()">
-<h2>HAMMER VS POTS HERE</h2>
+<input
+  type="text"
+  [(ngModel)]="rawPlayerData"
+  (input)="processRawPlayerData()"
+  style="width: 94.5%;"
+>
 <button routerLink="/building">BUILDING</button>
 <button routerLink="/fighting">FIGHTING</button>
 <button routerLink="/heroes">HEROES</button>
 <button routerLink="/spells">SPELLS</button>
-<router-outlet></router-outlet>
+
+@if (playerData!.tag == null || playerData!.tag === 'ERROR') {
+  @if (playerData!.tag === 'ERROR') {
+    <h1>ERROR PARSING PLAYER DATA, MAKE SURE THE DATA YOU PROVIDED IS CORRECT</h1>
+  }
+  <h1>INSTRUCTIONS FOR HOW TO GET PLAYER DATA HERE WITH PICS N ALLAT</h1>
+} @else {
+  <router-outlet></router-outlet>
+}
