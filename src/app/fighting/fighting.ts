@@ -45,7 +45,7 @@ export class Fighting {
       let currentTroop: any = this.getCurrentTroop(unit.data);
       let levelIndex = unit.lvl! == 0 ? 0 : unit.lvl! - 1;
       let max = currentTroop.levels.length < levelIndex + 2
-      if (this.playerData!.buildings[15].lvl! >= currentTroop.levels[levelIndex].required_lab_level + 1) {
+      if (!max && this.playerData!.buildings[15].lvl! >= currentTroop.levels[levelIndex].required_lab_level + 1) {
         if (!max && currentTroop.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentTroop.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         this.troops.push({
           name: currentTroop.name,
@@ -62,7 +62,7 @@ export class Fighting {
       let currentSiege: any = this.getCurrentTroop(siege.data);
       let levelIndex = siege.lvl! == 0 ? 0 : siege.lvl! - 1;
       let max = currentSiege.levels.length < levelIndex + 2
-      if (this.playerData!.buildings[0].lvl! >= currentSiege.levels[levelIndex].required_lab_level) {
+      if (!max && this.playerData!.buildings[0].lvl! >= currentSiege.levels[levelIndex].required_lab_level) {
         if (!max && currentSiege.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentSiege.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         this.troops.push({
           name: currentSiege.name,

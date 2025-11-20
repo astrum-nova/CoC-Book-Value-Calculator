@@ -44,7 +44,7 @@ export class Spells {
       let currentSpell: any = this.getCurrentTroop(spell.data);
       let levelIndex = spell.lvl! == 0 ? 0 : spell.lvl! - 1;
       let max = currentSpell.levels.length < levelIndex + 2
-      if (this.playerData!.buildings[15].lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
+      if (!max && this.playerData!.buildings[15].lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
         if (!max && currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         this.spells.push({
           name: currentSpell.name,
