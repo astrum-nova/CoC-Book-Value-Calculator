@@ -46,12 +46,14 @@ export class Spells {
       let max = currentSpell.levels.length < levelIndex + 2
       if (this.playerData!.buildings[15].lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
         if (!max && currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
-        this.spells.push({
-          name: currentSpell.name,
-          level: currentSpell.levels[levelIndex].level,
-          next: max ? -1 : currentSpell.levels[levelIndex].level + 1,
-          time: max ? -1 : currentSpell.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
-        })
+        if (!max) {
+          this.spells.push({
+            name: currentSpell.name,
+            level: currentSpell.levels[levelIndex].level,
+            next: max ? -1 : currentSpell.levels[levelIndex].level + 1,
+            time: max ? -1 : currentSpell.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+          })
+        }
       }
     })
   }
