@@ -4,7 +4,7 @@ import {Spell, StaticData, Troop} from '../static-interfaces';
 import {GlobalData} from '../data.service';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
-import { secondsToDuration } from '../utils';
+import {getObjectByID, secondsToDuration} from '../utils';
 
 @Component({
   selector: 'app-spells',
@@ -44,7 +44,7 @@ export class Spells {
       let currentSpell: any = this.getCurrentTroop(spell.data);
       let levelIndex = spell.lvl! == 0 ? 0 : spell.lvl! - 1;
       let max = currentSpell.levels.length < levelIndex + 2
-      if (this.playerData!.buildings[15].lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
+      if (getObjectByID(1000007, this.playerData?.buildings!).lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
         if (!max && currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentSpell.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         if (!max) {
           this.spells.push({

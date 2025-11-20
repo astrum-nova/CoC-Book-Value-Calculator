@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {PlayerData} from '../player-interfaces';
 import {StaticData, Troop} from '../static-interfaces';
 import {GlobalData} from '../data.service';
-import { secondsToDuration } from '../utils';
+import { secondsToDuration, getObjectByID } from '../utils';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 
@@ -40,11 +40,11 @@ export class Heroes {
   }
   filterTroops(): void {
     //@ts-ignore
-    this.playerData?.heroes?.forEach(unit => {
-      let currentHero: any = this.getCurrentTroop(unit.data);
-      let levelIndex = unit.lvl! == 0 ? 0 : unit.lvl! - 1;
+    this.playerData?.heroes?.forEach(hero => {
+      let currentHero: any = this.getCurrentTroop(hero.data);
+      let levelIndex = hero.lvl! == 0 ? 0 : hero.lvl! - 1;
       let max = currentHero.levels.length < levelIndex + 2
-      if (!max && this.playerData!.buildings[40].lvl! >= currentHero.levels[levelIndex + 1].required_hero_tavern_level) {
+      if (!max && getObjectByID(1000071, this.playerData?.buildings!).lvl! >= currentHero.levels[levelIndex + 1].required_hero_tavern_level) {
         if (!max && currentHero.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentHero.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         this.heroes.push({
           name: currentHero.name,
