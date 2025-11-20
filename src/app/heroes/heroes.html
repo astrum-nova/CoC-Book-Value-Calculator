@@ -13,7 +13,7 @@
     <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
   </div>
 </div>
-<h3 *ngFor="let hero of heroes" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
+<h3 *ngFor="let hero of heroes" style="border: 3px solid #ff8125; margin: 10px; padding: 20px; border-radius: 20px">
   BUILDING: {{hero.name}} <br>
   CURRENT LEVEL: {{hero.level}} <br>
   NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : 'MAXED FOR CURRENT HERO HALL'}} <br>
