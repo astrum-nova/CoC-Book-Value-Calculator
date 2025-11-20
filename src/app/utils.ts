@@ -15,3 +15,10 @@ export function secondsToDuration(totalSeconds: number): string {
   if (parts.length === 0) return '0m';
   return parts.join(' ');
 }
+export function getObjectByID(id: number, objects: any[]): any {
+  let res;
+  objects.forEach(obj => {
+    if (obj.data == id) res = obj;
+  })
+  return res;
+}
