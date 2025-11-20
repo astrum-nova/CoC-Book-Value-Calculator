@@ -9,12 +9,12 @@
     <input style="height: 20px; width: 50px;" [(ngModel)]="builders">
   </div>
   <div style="width: 70%">
-    <p>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </p>
-    <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+    <p>5 BUILDER POTIONS (15 CWL MEDALS REMAINING) {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF HEROES</p>
+    <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 5 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
   </div>
 </div>
 <h3 *ngFor="let hero of heroes" style="border: 3px solid #ff8125; margin: 10px; padding: 20px; border-radius: 20px">
-  BUILDING: {{hero.name}} <br>
+  HERO: {{hero.name}} <br>
   CURRENT LEVEL: {{hero.level}} <br>
   NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : 'MAXED FOR CURRENT HERO HALL'}} <br>
   UPGRADE TIME: {{hero.time != -1 ? secondsToDuration(hero.time) : 'MAXED FOR CURRENT HERO HALL'}}
