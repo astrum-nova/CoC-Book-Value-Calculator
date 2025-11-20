@@ -14,6 +14,7 @@ import {FormsModule} from '@angular/forms';
   ],
   templateUrl: './building.html',
   styleUrl: './building.css',
+  standalone: true
 })
 export class Building {
   protected playerData: PlayerData | undefined;
@@ -23,10 +24,18 @@ export class Building {
   protected exclusions: string[] = ["B.O.B's Hut", "Crafting Station", "Helper Hut", "Wall"]
   protected maxTime: number = 0;
   protected builders: number = 0;
+  protected discount: number = 0;
   constructor(private globalData: GlobalData) {}
   ngOnInit(): void {
     this.globalData.currentPlayerData.subscribe(data => this.playerData = data);
     this.globalData.currentStaticData.subscribe(data => this.staticData = data);
+    this.filterBuildings()
+    this.filterTraps()
+    this.buildings.sort((a, b) => b.time - a.time);
+  }
+  recalculate(): void {
+    this.buildings = [];
+    this.maxTime = 0;
     this.filterBuildings()
     this.filterTraps()
     this.buildings.sort((a, b) => b.time - a.time);
@@ -36,15 +45,15 @@ export class Building {
     this.playerData.buildings.forEach(building => {
       let currentBuilding: any = this.getCurrentBuilding(building.data);
       let levelIndex = building.lvl! == 0 ? 0 : building.lvl! - 1;
-      let max = currentBuilding.levels.length < levelIndex + 2
-      if (!this.exclusions.includes(currentBuilding.name) && this.playerData!.buildings[0].lvl! >= currentBuilding.levels[levelIndex].required_townhall) {
-        if (!max && currentBuilding.levels[levelIndex + 1].upgrade_time > this.maxTime) this.maxTime = currentBuilding.levels[levelIndex + 1].upgrade_time;
+      let max = currentBuilding.levels.length < levelIndex + 2;
+      if (!this.exclusions.includes(currentBuilding.name) && this.playerData!.buildings[0].lvl! >= currentBuilding.levels[levelIndex].required_townhall + 1) {
+        if (!max && currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         for (let i = 0; i < building.cnt!; i++) {
           this.buildings.push({
             name: currentBuilding.name,
             level: currentBuilding.levels[levelIndex].level,
             next: max ? -1 : currentBuilding.levels[levelIndex].level + 1,
-            time: max ? -1 : currentBuilding.levels[levelIndex + 1].upgrade_time,
+            time: max ? -1 : currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
           })
         }
       }
@@ -57,13 +66,13 @@ export class Building {
       let levelIndex = building.lvl! == 0 ? 0 : building.lvl! - 1;
       let max = currentTrap.levels.length < levelIndex + 2;
       if (!this.exclusions.includes(currentTrap.name) && this.playerData!.buildings[0].lvl! >= currentTrap.levels[levelIndex].required_townhall) {
-        if (!max && currentTrap.levels[levelIndex + 1].upgrade_time > this.maxTime) this.maxTime = currentTrap.levels[levelIndex + 1].upgrade_time;
+        if (!max && currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         for (let i = 0; i < building.cnt!; i++) {
           this.buildings.push({
             name: currentTrap.name,
             level: currentTrap.levels[levelIndex].level,
             next: max ? -1 : currentTrap.levels[levelIndex].level + 1,
-            time: max ? -1 : currentTrap.levels[levelIndex + 1].upgrade_time,
+            time: max ? -1 : currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
           })
         }
       }

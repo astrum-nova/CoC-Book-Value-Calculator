@@ -1,1 +1,21 @@
-<p>spells works!</p>
+<h1>Book Of Spells</h1>
+<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <div style="margin-right: 10px; width: 15%">
+    <p>Researchers:</p>
+    <input style="height: 20px; width: 50px; margin: 10px" [(ngModel)]="researchers">
+  </div>
+  <div style="margin-right: 10px; width: 25%">
+    <p>Time discount %:</p>
+    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+  </div>
+  <div>
+    <p>6 RESEARCH POTIONS {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF SPELLS </p>
+    <p>({{researchers * 23 * 6}} HOURS SKIPPED OVER 6 HOURS) {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+  </div>
+</div>
+<h3 *ngFor="let spell of spells" style="border: 3px solid #7aff37; margin: 10px; padding: 20px; border-radius: 20px">
+  SPELL: {{spell.name}} <br>
+  CURRENT LEVEL: {{spell.level}} <br>
+  NEXT LEVEL: {{spell.time != -1 ? spell.level + 1 : 'MAXED'}} <br>
+  UPGRADE TIME: {{spell.time != -1 ? secondsToDuration(spell.time) : 'MAXED'}}
+</h3>

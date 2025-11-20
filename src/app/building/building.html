@@ -1,9 +1,17 @@
 <h1>Book Of Building</h1>
-<div style="border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
-  <p>Builders:</p>
-  <input style="height: 20px; width: 15px; margin: 10px" [(ngModel)]="builders">
-  <p>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </p>
-  <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <div style="margin-right: 10px; width: 15%">
+    <p>Builders:</p>
+    <input style="height: 20px; width: 50px;" [(ngModel)]="builders">
+  </div>
+  <div style="margin-right: 10px; width: 25%">
+    <p>Time discount %:</p>
+    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+  </div>
+  <div>
+    <p>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </p>
+    <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+  </div>
 </div>
 <h3 *ngFor="let building of buildings" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
   BUILDING: {{building.name}} <br>

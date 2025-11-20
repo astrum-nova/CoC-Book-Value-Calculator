@@ -1,1 +1,21 @@
-<p>heroes works!</p>
+<h1>Book Of Heroes</h1>
+<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <div style="margin-right: 10px; width: 10%">
+    <p>Builders:</p>
+    <input style="height: 20px; width: 50px;" [(ngModel)]="builders">
+  </div>
+  <div style="margin-right: 10px; width: 25%">
+    <p>Time discount %:</p>
+    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+  </div>
+  <div>
+    <p>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </p>
+    <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
+  </div>
+</div>
+<h3 *ngFor="let hero of heroes" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
+  BUILDING: {{hero.name}} <br>
+  CURRENT LEVEL: {{hero.level}} <br>
+  NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : 'MAXED FOR CURRENT HERO HALL'}} <br>
+  UPGRADE TIME: {{hero.time != -1 ? secondsToDuration(hero.time) : 'MAXED FOR CURRENT HERO HALL'}}
+</h3>
