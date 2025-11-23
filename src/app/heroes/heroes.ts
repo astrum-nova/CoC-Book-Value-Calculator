@@ -29,19 +29,19 @@ export class Heroes {
   ngOnInit(): void {
     this.globalData.currentPlayerData.subscribe(data => this.playerData = data);
     this.globalData.currentStaticData.subscribe(data => this.staticData = data);
-    this.filterTroops();
+    this.filterHeroes();
     this.heroes.sort((a, b) => b.time - a.time);
   }
   recalculate(): void {
     this.heroes = [];
     this.maxTime = 0;
-    this.filterTroops()
+    this.filterHeroes()
     this.heroes.sort((a, b) => b.time - a.time);
   }
-  filterTroops(): void {
+  filterHeroes(): void {
     //@ts-ignore
     this.playerData?.heroes?.forEach(hero => {
-      let currentHero: any = this.getCurrentTroop(hero.data);
+      let currentHero: any = this.getCurrentHero(hero.data);
       let levelIndex = hero.lvl! == 0 ? 0 : hero.lvl! - 1;
       let max = currentHero.levels.length < levelIndex + 2
       if (!max && getObjectByID(1000071, this.playerData?.buildings!).lvl! >= currentHero.levels[levelIndex + 1].required_hero_tavern_level) {
@@ -62,7 +62,7 @@ export class Heroes {
       }
     })
   }
-  getCurrentTroop(search: any): any {
+  getCurrentHero(search: any): any {
     let res;
     this.staticData!.heroes.forEach((hero: any) => {
       if (hero._id == search) {
@@ -72,6 +72,7 @@ export class Heroes {
     return res!;
   }
   protected readonly secondsToDuration = secondsToDuration;
+  protected poh: boolean | undefined;
 }
 interface HeroType {
   name: string,

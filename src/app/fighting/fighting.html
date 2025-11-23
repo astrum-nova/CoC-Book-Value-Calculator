@@ -1,21 +1,36 @@
-<h1>Book Of Fighting</h1>
-<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
-  <div style="margin-right: 10px; width: 20%">
-    <p>Time discount %:</p>
-    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
-  </div>
-  <div style="margin-right: 10px; width: 20%;">
-    <p>Researchers:</p>
-    <input style="height: 20px; width: 50px; margin-right: 10px" [(ngModel)]="researchers">
-  </div>
-  <div style="width: 70%">
-    <p>6 RESEARCH POTIONS {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF FIGHTING </p>
-    <p>({{researchers * 23 * 6}} HOURS SKIPPED OVER 6 HOURS) {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
-  </div>
+<div style="border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <h1 id="poh" style="text-align: center; border-radius: 12px; margin: 0; padding: 10px; cursor: pointer; width: 97%;" (click)="poh = !poh">Potions vs Hammer</h1>
+  @if (poh) {
+    <div style="display: flex">
+      <div style="margin-right: 10px; width: 25%">
+        <h3>Time discount %:</h3>
+        <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+      </div>
+      <div style="margin-right: 10px; width: 20%;">
+        <h3>Researchers:</h3>
+        <input style="height: 20px; width: 50px; margin-right: 10px" [(ngModel)]="researchers">
+      </div>
+      <div style="width: 70%">
+        <h3>6 RESEARCH POTIONS {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF FIGHTING </h3>
+        <h3>({{researchers * 23 * 6}} HOURS SKIPPED OVER 6 HOURS) {{researchers * 23 * 6 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</h3>
+      </div>
+    </div>
+    <h3 (click)="showGuardianReason = !showGuardianReason" style="cursor: pointer;">
+      Guardians are excluded from this calculation! (click to see why)
+      @if (showGuardianReason) {
+        <p>
+          For some reason Supercell decided guardians would use builders to upgrade, and books of fighting to finish an upgrade. This is a little unprecedented, they could've very well used books of heroes and it would've been much simpler on my end here. Just dont count guardians in the research potions vs hammer of fighting calculation, if it says you should buy a hammer its because of the first listed troop/siege machine in the list. I highlighted guardians in dark blue and troops/siege machines in purple and red.
+        </p>
+      }
+    </h3>
+  }
 </div>
-<h3 *ngFor="let troop of troops" style="border: 3px solid #9837ff; margin: 10px; padding: 20px; border-radius: 20px">
-  TROOP: {{troop.name}} <br>
-  CURRENT LEVEL: {{troop.level}} <br>
-  NEXT LEVEL: {{troop.time != -1 ? troop.level + 1 : 'MAXED'}} <br>
-  UPGRADE TIME: {{troop.time != -1 ? secondsToDuration(troop.time) : 'MAXED'}}
-</h3>
+<h1>Book Of Fighting</h1>
+<div style="padding-bottom: 30px">
+  <h3 *ngFor="let troop of troops" style="border: 3px solid {{troop.guardian ? 'blue' : troop.siege ? 'red' : '#9837ff'}}; margin: 10px; padding: 20px; border-radius: 20px">
+    TROOP: {{troop.name}} <br>
+    CURRENT LEVEL: {{troop.level}} <br>
+    NEXT LEVEL: {{troop.time != -1 ? troop.level + 1 : 'MAXED'}} <br>
+    UPGRADE TIME: {{troop.time != -1 ? secondsToDuration(troop.time) : 'MAXED'}}
+  </h3>
+</div>

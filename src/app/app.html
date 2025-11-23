@@ -1,4 +1,12 @@
-<h1>BOOK VALUE CALCULATOR DEV UI -heromaxfix</h1>
+<h1>BOOK VALUE CALCULATOR DEV UI</h1>
+<p>
+  GUARDIANS PATCH: <br>
+  - guardians in the book of fighting (hopefully i guessed how the data looks like) <br>
+  - added footer <br>
+  - collapsing pots vs hammer interface <br>
+  TO DO: <br>
+  - pets in the book of heroes (do people actually waste books on pets?) <br>
+</p>
 <label>PLAYER JSON DATA</label>
 <input
   type="text"
@@ -10,7 +18,7 @@
 <button routerLink="/fighting">FIGHTING</button>
 <button routerLink="/heroes">HEROES</button>
 <button routerLink="/spells">SPELLS</button>
-@if (playerData!.tag == null || playerData!.tag === 'ERROR') {
+@if (playerData! == undefined || playerData!.tag === 'ERROR') {
   @if (playerData!.tag === 'ERROR') {
     <h1>ERROR PARSING PLAYER DATA, MAKE SURE THE DATA YOU PROVIDED IS CORRECT</h1>
   }
@@ -18,3 +26,6 @@
 } @else {
   <router-outlet></router-outlet>
 }
+<div style="position: fixed; top: 95%; right: 0; justify-items: center; background-color: #363940; border-top: 1px solid white; width: 100%;">
+  <p style="margin-top: 10px">Made by Astrum Nova, <a href="https://github.com/astrum-nova/CoC-Book-Value-Calculator">Github Repository</a></p>
+</div>
