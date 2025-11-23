@@ -48,7 +48,7 @@ export class Heroes {
       let max = currentHero.levels.length < levelIndex + 2
       if (!max && getObjectByID(1000071, this.playerData?.buildings!).lvl! >= currentHero.levels[levelIndex + 1].required_hero_tavern_level) {
         if (!max && currentHero.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentHero.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
-        this.heroes.push({
+        if (hero.timer == undefined) this.heroes.push({
           name: currentHero.name,
           level: currentHero.levels[levelIndex].level,
           next: currentHero.levels[levelIndex].level + 1,
@@ -75,7 +75,7 @@ export class Heroes {
       let levelIndex = pet.lvl! == 0 ? 0 : pet.lvl! - 1;
       let max = currentPet.levels.length < levelIndex + 2
       if (!max && getObjectByID(1000068, this.playerData?.buildings!).lvl! >= currentPet.levels[levelIndex + 1].lab_level) {
-        this.heroes.push({
+        if (pet.timer == undefined) this.heroes.push({
           name: currentPet.name,
           level: currentPet.levels[levelIndex].level,
           next: currentPet.levels[levelIndex].level + 1,

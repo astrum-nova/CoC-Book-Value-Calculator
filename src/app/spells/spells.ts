@@ -75,5 +75,5 @@ interface SpellType {
   level: number,
   next: number,
   time: number,
-  max: number
+  max: number,
 }

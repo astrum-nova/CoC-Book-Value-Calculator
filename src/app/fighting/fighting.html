@@ -27,10 +27,13 @@
 </div>
 <h1>Book Of Fighting</h1>
 <div style="padding-bottom: 30px">
+  @if (troops) {
+
+  }
   <h3 *ngFor="let troop of troops" style="border: 3px solid {{troop.guardian ? 'blue' : troop.siege ? 'red' : '#9837ff'}}; margin: 10px; padding: 20px; border-radius: 20px">
-    TROOP: {{troop.name}} <br>
+    {{troop.siege ? 'SIEGE' : troop.guardian ? 'GUARDIAN' : 'TROOP'}}: {{troop.name}} <br>
     CURRENT LEVEL: {{troop.level}}<span style="color: grey">/{{troop.max}}</span> <br>
-    NEXT LEVEL: {{troop.time != -1 ? troop.level + 1 : 'MAXED'}} <br>
-    UPGRADE TIME: {{troop.time != -1 ? secondsToDuration(troop.time) : 'MAXED'}}
+    NEXT LEVEL: {{troop.level + 1}} <br>
+    UPGRADE TIME: {{secondsToDuration(troop.time)}}
   </h3>
 </div>
