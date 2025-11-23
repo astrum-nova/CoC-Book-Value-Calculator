@@ -30,12 +30,14 @@ export class Heroes {
     this.globalData.currentPlayerData.subscribe(data => this.playerData = data);
     this.globalData.currentStaticData.subscribe(data => this.staticData = data);
     this.filterHeroes();
+    if (this.showPets) this.filterPets()
     this.heroes.sort((a, b) => b.time - a.time);
   }
   recalculate(): void {
     this.heroes = [];
     this.maxTime = 0;
     this.filterHeroes()
+    if (this.showPets) this.filterPets()
     this.heroes.sort((a, b) => b.time - a.time);
   }
   filterHeroes(): void {
@@ -51,6 +53,7 @@ export class Heroes {
           level: currentHero.levels[levelIndex].level,
           next: currentHero.levels[levelIndex].level + 1,
           time: currentHero.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+          pet: false
         })
       } else {
         this.heroes.push({
@@ -58,6 +61,33 @@ export class Heroes {
           level: currentHero.levels[levelIndex].level,
           next: -1,
           time: -1,
+          pet: false
+        })
+      }
+    })
+  }
+  filterPets(): void {
+    //@ts-ignore
+    this.playerData?.pets?.forEach(pet => {
+      let currentPet: any = this.getCurrentPet(pet.data);
+      let levelIndex = pet.lvl! == 0 ? 0 : pet.lvl! - 1;
+      let max = currentPet.levels.length < levelIndex + 2
+      if (!max && getObjectByID(1000068, this.playerData?.buildings!).lvl! >= currentPet.levels[levelIndex + 1].lab_level) {
+        if (!max && currentPet.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentPet.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
+        this.heroes.push({
+          name: currentPet.name,
+          level: currentPet.levels[levelIndex].level,
+          next: currentPet.levels[levelIndex].level + 1,
+          time: currentPet.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+          pet: true
+        })
+      } else {
+        this.heroes.push({
+          name: currentPet.name,
+          level: currentPet.levels[levelIndex].level,
+          next: -1,
+          time: -1,
+          pet: true
         })
       }
     })
@@ -71,12 +101,23 @@ export class Heroes {
     })
     return res!;
   }
+  getCurrentPet(search: any): any {
+    let res;
+    this.staticData!.pets.forEach((pet: any) => {
+      if (pet._id == search) {
+        res = pet;
+      }
+    })
+    return res!;
+  }
   protected readonly secondsToDuration = secondsToDuration;
   protected poh: boolean | undefined;
+  protected showPets: boolean = true;
 }
 interface HeroType {
   name: string,
   level: number,
   next: number,
   time: number,
+  pet: boolean
 }
