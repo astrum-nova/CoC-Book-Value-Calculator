@@ -22,7 +22,7 @@
 <div style="padding-bottom: 30px">
   <h3 *ngFor="let building of buildings" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
     BUILDING: {{building.name}} <br>
-    CURRENT LEVEL: {{building.level}} <br>
+    CURRENT LEVEL: {{building.level}}<span style="color: grey">/{{building.max}}</span> <br>
     NEXT LEVEL: {{building.time != -1 ? building.level + 1 : 'MAXED FOR CURRENT TOWN HALL'}} <br>
     UPGRADE TIME: {{building.time != -1 ? secondsToDuration(building.time) : 'MAXED FOR CURRENT TOWN HALL'}}
   </h3>

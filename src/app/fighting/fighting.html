@@ -16,7 +16,7 @@
       </div>
     </div>
     <h3 (click)="showGuardianReason = !showGuardianReason" style="cursor: pointer;">
-      Guardians are excluded from this calculation! (click to see why)
+      Guardians are excluded from this calculation! (click to see/hide why)
       @if (showGuardianReason) {
         <p>
           For some reason Supercell decided guardians would use builders to upgrade, and books of fighting to finish an upgrade. This is a little unprecedented, they could've very well used books of heroes and it would've been much simpler on my end here. Just dont count guardians in the research potions vs hammer of fighting calculation, if it says you should buy a hammer its because of the first listed troop/siege machine in the list. I highlighted guardians in dark blue and troops/siege machines in purple and red.
@@ -29,7 +29,7 @@
 <div style="padding-bottom: 30px">
   <h3 *ngFor="let troop of troops" style="border: 3px solid {{troop.guardian ? 'blue' : troop.siege ? 'red' : '#9837ff'}}; margin: 10px; padding: 20px; border-radius: 20px">
     TROOP: {{troop.name}} <br>
-    CURRENT LEVEL: {{troop.level}} <br>
+    CURRENT LEVEL: {{troop.level}}<span style="color: grey">/{{troop.max}}</span> <br>
     NEXT LEVEL: {{troop.time != -1 ? troop.level + 1 : 'MAXED'}} <br>
     UPGRADE TIME: {{troop.time != -1 ? secondsToDuration(troop.time) : 'MAXED'}}
   </h3>

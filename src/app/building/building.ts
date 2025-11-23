@@ -55,6 +55,7 @@ export class Building {
               level: currentBuilding.levels[levelIndex].level,
               next: currentBuilding.levels[levelIndex].level + 1,
               time: currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              max: currentBuilding.levels.length
             })
           }
         }
@@ -76,6 +77,7 @@ export class Building {
               level: currentTrap.levels[levelIndex].level,
               next: currentTrap.levels[levelIndex].level + 1,
               time: currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              max: currentTrap.levels.length
             })
           }
         }
@@ -109,4 +111,5 @@ interface BuildingType {
   level: number,
   next: number,
   time: number,
+  max: number
 }

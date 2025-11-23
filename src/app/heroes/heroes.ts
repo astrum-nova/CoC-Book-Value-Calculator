@@ -53,7 +53,8 @@ export class Heroes {
           level: currentHero.levels[levelIndex].level,
           next: currentHero.levels[levelIndex].level + 1,
           time: currentHero.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
-          pet: false
+          pet: false,
+          max: currentHero.levels.length
         })
       } else {
         this.heroes.push({
@@ -61,7 +62,8 @@ export class Heroes {
           level: currentHero.levels[levelIndex].level,
           next: -1,
           time: -1,
-          pet: false
+          pet: false,
+          max: currentHero.levels.length
         })
       }
     })
@@ -73,13 +75,13 @@ export class Heroes {
       let levelIndex = pet.lvl! == 0 ? 0 : pet.lvl! - 1;
       let max = currentPet.levels.length < levelIndex + 2
       if (!max && getObjectByID(1000068, this.playerData?.buildings!).lvl! >= currentPet.levels[levelIndex + 1].lab_level) {
-        if (!max && currentPet.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentPet.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
         this.heroes.push({
           name: currentPet.name,
           level: currentPet.levels[levelIndex].level,
           next: currentPet.levels[levelIndex].level + 1,
           time: currentPet.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
-          pet: true
+          pet: true,
+          max: currentPet.levels.length
         })
       } else {
         this.heroes.push({
@@ -87,7 +89,8 @@ export class Heroes {
           level: currentPet.levels[levelIndex].level,
           next: -1,
           time: -1,
-          pet: true
+          pet: true,
+          max: currentPet.levels.length
         })
       }
     })
@@ -113,11 +116,13 @@ export class Heroes {
   protected readonly secondsToDuration = secondsToDuration;
   protected poh: boolean | undefined;
   protected showPets: boolean = true;
+  protected showPetsReason: boolean = false;
 }
 interface HeroType {
   name: string,
   level: number,
   next: number,
   time: number,
-  pet: boolean
+  pet: boolean,
+  max: number
 }

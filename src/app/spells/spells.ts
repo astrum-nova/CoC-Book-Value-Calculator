@@ -52,6 +52,7 @@ export class Spells {
             level: currentSpell.levels[levelIndex].level,
             next: currentSpell.levels[levelIndex].level + 1,
             time: currentSpell.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            max: currentSpell.levels.length
           })
         }
       }
@@ -74,4 +75,5 @@ interface SpellType {
   level: number,
   next: number,
   time: number,
+  max: number
 }

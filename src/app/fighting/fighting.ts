@@ -56,7 +56,8 @@ export class Fighting {
             next: max ? -1 : currentTroop.levels[levelIndex].level + 1,
             time: max ? -1 : currentTroop.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
             guardian: false,
-            siege: false
+            siege: false,
+            max: currentTroop.levels.length
           })
         }
       }
@@ -77,7 +78,8 @@ export class Fighting {
             next: currentSiege.levels[levelIndex].level + 1,
             time: currentSiege.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
             guardian: false,
-            siege: true
+            siege: true,
+            max: currentSiege.levels.length
           })
         }
       }
@@ -97,7 +99,8 @@ export class Fighting {
             next: currentGuardian.levels[levelIndex].level + 1,
             time: currentGuardian.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
             guardian: true,
-            siege: false
+            siege: false,
+            max: currentGuardian.levels.length
           })
         }
       }
@@ -131,5 +134,6 @@ interface TroopType {
   next: number,
   time: number,
   guardian: boolean,
-  siege: boolean
+  siege: boolean,
+  max: number
 }

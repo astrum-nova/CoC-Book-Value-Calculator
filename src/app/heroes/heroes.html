@@ -15,13 +15,21 @@
         <h3>({{builders * 9 * 5}} HOURS SKIPPED OVER 5 HOURS) {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</h3>
       </div>
     </div>
+    <h3 (click)="showPetsReason = !showPetsReason" style="cursor: pointer;">
+      Pets are excluded from this calculation! (click to see/hide why)
+      @if (showPetsReason) {
+        <p>
+          Since you cant buy pet potions from the league shop there is no reason to include pets here, if it says you should buy a hammer instead of builder potions it is because of the first hero listed here.
+        </p>
+      }
+    </h3>
   }
 </div>
 <h1>Book Of Heroes <span id="toggle-pets" (click)="showPets = !showPets; recalculate()">Toggle Pets</span></h1>
 <div style="padding-bottom: 30px">
   <h3 *ngFor="let hero of heroes" style="border: 3px solid {{hero.pet ? 'white' : '#ff8125'}}; margin: 10px; padding: 20px; border-radius: 20px;">
     HERO: {{hero.name}} <br>
-    CURRENT LEVEL: {{hero.level}} <br>
+    CURRENT LEVEL: {{hero.level}}<span style="color: grey">/{{hero.max}}</span> <br>
     NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : hero.pet ? 'MAXED FOR CURRENT PET HOUSE' : 'MAXED FOR CURRENT HERO HALL'}} <br>
     UPGRADE TIME: {{hero.time != -1 ? secondsToDuration(hero.time) : hero.pet ? 'MAXED FOR CURRENT PET HOUSE' : 'MAXED FOR CURRENT HERO HALL'}}
   </h3>
