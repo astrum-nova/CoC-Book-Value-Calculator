@@ -3,7 +3,7 @@ import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {getObjectByID, secondsToDuration} from '../utils';
 import {PlayerData} from '../player-interfaces';
-import {StaticData, Troop} from '../static-interfaces';
+import {Guardian, StaticData, Troop} from '../static-interfaces';
 import {GlobalData} from '../data.service';
 
 @Component({
@@ -30,6 +30,7 @@ export class Fighting {
     this.globalData.currentStaticData.subscribe(data => this.staticData = data);
     this.filterTroops();
     this.filterSieges();
+    this.filterGuardians();
     this.troops.sort((a, b) => b.time - a.time);
   }
   recalculate(): void {
@@ -37,6 +38,7 @@ export class Fighting {
     this.maxTime = 0;
     this.filterTroops()
     this.filterSieges()
+    this.filterGuardians();
     this.troops.sort((a, b) => b.time - a.time);
   }
   filterTroops(): void {
@@ -47,12 +49,16 @@ export class Fighting {
       let max = currentTroop.levels.length < levelIndex + 2
       if (getObjectByID(1000007, this.playerData?.buildings!).lvl! >= currentTroop.levels[levelIndex].required_lab_level + 1) {
         if (!max && currentTroop.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentTroop.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
-        if (!max) {
+        // @ts-ignore
+        if (!max && unit.timer == undefined) {
           this.troops.push({
             name: currentTroop.name,
             level: currentTroop.levels[levelIndex].level,
-            next: max ? -1 : currentTroop.levels[levelIndex].level + 1,
-            time: max ? -1 : currentTroop.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            next: currentTroop.levels[levelIndex].level + 1,
+            time: currentTroop.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            guardian: false,
+            siege: false,
+            max: currentTroop.levels.length,
           })
         }
       }
@@ -66,12 +72,38 @@ export class Fighting {
       let max = currentSiege.levels.length < levelIndex + 2
       if (getObjectByID(1000007, this.playerData?.buildings!).lvl! >= currentSiege.levels[levelIndex].required_lab_level) {
         if (!max && currentSiege.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100) > this.maxTime) this.maxTime = currentSiege.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100);
-        if (!max) {
+        // @ts-ignore
+        if (!max && siege.timer == undefined) {
           this.troops.push({
             name: currentSiege.name,
             level: currentSiege.levels[levelIndex].level,
-            next: max ? -1 : currentSiege.levels[levelIndex].level + 1,
-            time: max ? -1 : currentSiege.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            next: currentSiege.levels[levelIndex].level + 1,
+            time: currentSiege.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            guardian: false,
+            siege: true,
+            max: currentSiege.levels.length,
+          })
+        }
+      }
+    })
+  }
+  filterGuardians(): void {
+    //@ts-ignore
+    this.playerData?.guardians?.forEach(guardian => {
+      let currentGuardian: Guardian = this.getCurrentGuardian(guardian.data);
+      let levelIndex = guardian.lvl! == 0 ? 0 : guardian.lvl! - 1;
+      let max = currentGuardian.levels.length < levelIndex + 2;
+      if (getObjectByID(1000001, this.playerData?.buildings!).lvl! >= currentGuardian.levels[levelIndex].required_townhall) {
+        // @ts-ignore
+        if (!max && guardian.timer == undefined) {
+          this.troops.push({
+            name: currentGuardian.name,
+            level: currentGuardian.levels[levelIndex].level,
+            next: currentGuardian.levels[levelIndex].level + 1,
+            time: currentGuardian.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            guardian: true,
+            siege: false,
+            max: currentGuardian.levels.length,
           })
         }
       }
@@ -86,11 +118,25 @@ export class Fighting {
     })
     return res!;
   }
+  getCurrentGuardian(search: any): Guardian {
+    let res: Guardian;
+    this.staticData!.guardians.forEach((guardian: any) => {
+      if (guardian._id == search) {
+        res = guardian;
+      }
+    })
+    return res!;
+  }
   protected readonly secondsToDuration = secondsToDuration;
+  protected showGuardianReason: boolean | undefined;
+  protected poh: boolean | undefined;
 }
 interface TroopType {
   name: string,
   level: number,
   next: number,
   time: number,
+  guardian: boolean,
+  siege: boolean,
+  max: number,
 }

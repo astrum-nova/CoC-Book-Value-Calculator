@@ -3,6 +3,7 @@ export interface PlayerData {
   timestamp: number
   helpers: Helper[]
   buildings: Building[]
+  guardians: Guardian[]
   traps: Trap[]
   decos: Deco[]
   obstacles: Obstacle[]
@@ -17,7 +18,7 @@ export interface PlayerData {
   sceneries: number[]
   buildings2: Buildings2[]
   traps2: Traps2[]
-  decos2: any[]
+  decos2: Decos2[]
   obstacles2: Obstacles2[]
   units2: Units2[]
   heroes2: Heroes2[]
@@ -29,24 +30,40 @@ export interface PlayerData {
 export interface Helper {
   data: number
   lvl: number
-  helper_cooldown: number
 }
 
 export interface Building {
   data: number
   lvl?: number
   weapon?: number
-  timer?: number
   gear_up?: number
-  extra?: boolean
-  types?: any[]
+  supercharge?: number
+  types?: Type[]
   cnt?: number
+}
+
+export interface Type {
+  data: number
+  modules: Module[]
+}
+
+export interface Module {
+  data: number
+  lvl: number
+}
+
+export interface Guardian {
+  data: number
+  lvl: number
+  timer?: number
+  helper_timer?: number
 }
 
 export interface Trap {
   data: number
   lvl: number
-  cnt: number
+  timer?: number
+  cnt?: number
 }
 
 export interface Deco {
@@ -60,17 +77,19 @@ export interface Obstacle {
 }
 
 export interface Unit {
+  timer?: number
   data: number
   lvl: number
-  timer?: number
 }
 
 export interface SiegeMachine {
+  timer?: number
   data: number
   lvl: number
 }
 
 export interface Her {
+  timer: number | undefined;
   data: number
   lvl: number
 }
@@ -81,9 +100,9 @@ export interface Spell {
 }
 
 export interface Pet {
+  timer: number | undefined;
   data: number
   lvl: number
-  timer?: number
 }
 
 export interface Equipment {
@@ -94,13 +113,17 @@ export interface Equipment {
 export interface Buildings2 {
   data: number
   lvl: number
-  timer?: number
-  cnt?: number
+  cnt: number
 }
 
 export interface Traps2 {
   data: number
   lvl: number
+  cnt: number
+}
+
+export interface Decos2 {
+  data: number
   cnt: number
 }
 
@@ -112,7 +135,6 @@ export interface Obstacles2 {
 export interface Units2 {
   data: number
   lvl: number
-  timer?: number
 }
 
 export interface Heroes2 {
@@ -120,6 +142,4 @@ export interface Heroes2 {
   lvl: number
 }
 
-export interface Boosts {
-  clocktower_cooldown: number
-}
+export interface Boosts {}

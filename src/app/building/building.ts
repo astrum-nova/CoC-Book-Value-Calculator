@@ -53,8 +53,9 @@ export class Building {
             this.buildings.push({
               name: currentBuilding.name,
               level: currentBuilding.levels[levelIndex].level,
-              next: max ? -1 : currentBuilding.levels[levelIndex].level + 1,
-              time: max ? -1 : currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              next: currentBuilding.levels[levelIndex].level + 1,
+              time: currentBuilding.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              max: currentBuilding.levels.length
             })
           }
         }
@@ -74,8 +75,9 @@ export class Building {
             this.buildings.push({
               name: currentTrap.name,
               level: currentTrap.levels[levelIndex].level,
-              next: max ? -1 : currentTrap.levels[levelIndex].level + 1,
-              time: max ? -1 : currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              next: currentTrap.levels[levelIndex].level + 1,
+              time: currentTrap.levels[levelIndex + 1].upgrade_time * ((100 - this.discount) / 100),
+              max: currentTrap.levels.length
             })
           }
         }
@@ -102,10 +104,12 @@ export class Building {
   }
 
   protected readonly secondsToDuration = secondsToDuration;
+  protected poh: boolean | undefined;
 }
 interface BuildingType {
   name: string,
   level: number,
   next: number,
   time: number,
+  max: number
 }

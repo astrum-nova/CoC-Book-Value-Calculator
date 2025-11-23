@@ -9,6 +9,5 @@ export const routes: Routes = [
   {path: "fighting", component: Fighting},
   {path: "heroes", component: Heroes},
   {path: "spells", component: Spells},
-  {path: '', redirectTo: 'building', pathMatch: 'full'},
-  {path: '**', redirectTo: 'building'}
+  {path: '', redirectTo: '/building', pathMatch: 'full'}
 ];

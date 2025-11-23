@@ -29,19 +29,19 @@ export class Spells {
   ngOnInit(): void {
     this.globalData.currentPlayerData.subscribe(data => this.playerData = data);
     this.globalData.currentStaticData.subscribe(data => this.staticData = data);
-    this.filterTroops();
+    this.filterSpells();
     this.spells.sort((a, b) => b.time - a.time);
   }
   recalculate(): void {
     this.spells = [];
     this.maxTime = 0;
-    this.filterTroops()
+    this.filterSpells()
     this.spells.sort((a, b) => b.time - a.time);
   }
-  filterTroops(): void {
+  filterSpells(): void {
     //@ts-ignore
     this.playerData?.spells?.forEach(spell => {
-      let currentSpell: any = this.getCurrentTroop(spell.data);
+      let currentSpell: any = this.getCurrentSpell(spell.data);
       let levelIndex = spell.lvl! == 0 ? 0 : spell.lvl! - 1;
       let max = currentSpell.levels.length < levelIndex + 2
       if (getObjectByID(1000007, this.playerData?.buildings!).lvl! >= currentSpell.levels[levelIndex].required_lab_level + 1) {
@@ -50,14 +50,15 @@ export class Spells {
           this.spells.push({
             name: currentSpell.name,
             level: currentSpell.levels[levelIndex].level,
-            next: max ? -1 : currentSpell.levels[levelIndex].level + 1,
-            time: max ? -1 : currentSpell.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            next: currentSpell.levels[levelIndex].level + 1,
+            time: currentSpell.levels[levelIndex].upgrade_time * ((100 - this.discount) / 100),
+            max: currentSpell.levels.length
           })
         }
       }
     })
   }
-  getCurrentTroop(search: any): Spell {
+  getCurrentSpell(search: any): Spell {
     let res: Spell;
     this.staticData!.spells.forEach((spell: any) => {
       if (spell._id == search) {
@@ -67,10 +68,12 @@ export class Spells {
     return res!;
   }
   protected readonly secondsToDuration = secondsToDuration;
+  protected poh: boolean | undefined;
 }
 interface SpellType {
   name: string,
   level: number,
   next: number,
   time: number,
+  max: number,
 }

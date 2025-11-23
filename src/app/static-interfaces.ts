@@ -1,10 +1,10 @@
 export interface StaticData {
   buildings: Building[]
-  hall_unlocks: HallUnlocks
   supercharges: Supercharge[]
   seasonal_defenses: SeasonalDefense[]
   traps: Trap[]
   troops: Troop[]
+  guardians: Guardian[]
   spells: Spell[]
   heroes: Her[]
   pets: Pet[]
@@ -30,6 +30,7 @@ export interface Building {
   width?: number
   superchargeable: boolean
   levels: Level[]
+  gear_up?: GearUp
 }
 
 export interface Tid {
@@ -44,33 +45,27 @@ export interface Level {
   required_townhall?: number
   hitpoints: number
   dps?: number
+  unlocks?: Unlock[]
+  merge_requirement?: MergeRequirement[]
 }
 
-export interface HallUnlocks {
-  townhall: Townhall[]
-  builderhall: Builderhall[]
-}
-
-export interface Townhall {
-  level: number
-  buildings_unlocked: BuildingsUnlocked[]
-}
-
-export interface BuildingsUnlocked {
+export interface Unlock {
   name: string
   _id: number
   quantity: number
 }
 
-export interface Builderhall {
-  level: number
-  buildings_unlocked: BuildingsUnlocked2[]
-}
-
-export interface BuildingsUnlocked2 {
+export interface MergeRequirement {
   name: string
   _id: number
-  quantity: number
+  geared_up: boolean
+  level: number
+}
+
+export interface GearUp {
+  level_required: number
+  resource: string
+  building_id: number
 }
 
 export interface Supercharge {
@@ -126,9 +121,10 @@ export interface AbilityData {
   HealthOverride?: number
   AttackSpeed?: number
   Damage?: number
-  DPS?: number
-  StunOnHitTime?: number
   Projectile?: string
+  DPS?: number
+  AuraSpellLevel?: number
+  StunOnHitTime?: number
   BurstCount?: number
   BurstDelay?: number
   DamageRadius?: number
@@ -180,7 +176,7 @@ export interface Troop {
   housing_space: number
   village_type: string
   levels: Level5[]
-  is_super_troop?: boolean
+  super_troop?: SuperTroop
   is_seasonal?: boolean
 }
 
@@ -199,18 +195,24 @@ export interface Level5 {
   required_townhall?: number
 }
 
-export interface Spell {
+export interface SuperTroop {
+  original_id: number
+  original_min_level: number
+}
+
+export interface Guardian {
   _id: number
   name: string
   info: string
   TID: Tid6
-  production_building: string
-  production_building_level: number
   upgrade_resource: string
-  radius?: number
-  housing_space: number
+  is_flying: boolean
+  is_air_targeting: boolean
+  is_ground_targeting: boolean
+  movement_speed: number
+  attack_speed: number
+  attack_range: number
   levels: Level6[]
-  is_seasonal?: boolean
 }
 
 export interface Tid6 {
@@ -219,6 +221,34 @@ export interface Tid6 {
 }
 
 export interface Level6 {
+  level: number
+  hitpoints: number
+  dps: number
+  upgrade_time: number
+  upgrade_cost: number
+  required_townhall: number
+}
+
+export interface Spell {
+  _id: number
+  name: string
+  info: string
+  TID: Tid7
+  production_building: string
+  production_building_level: number
+  upgrade_resource: string
+  radius?: number
+  housing_space: number
+  levels: Level7[]
+  is_seasonal?: boolean
+}
+
+export interface Tid7 {
+  name: string
+  info: string
+}
+
+export interface Level7 {
   level: number
   damage?: number
   upgrade_time: number
@@ -231,7 +261,7 @@ export interface Her {
   _id: number
   name: string
   info: string
-  TID: Tid7
+  TID: Tid8
   production_building?: string
   production_building_level?: number
   upgrade_resource: string
@@ -242,38 +272,6 @@ export interface Her {
   attack_speed: number
   attack_range: number
   village_type: string
-  levels: Level7[]
-}
-
-export interface Tid7 {
-  name: string
-  info: string
-}
-
-export interface Level7 {
-  level: number
-  hitpoints: number
-  dps: number
-  upgrade_time: number
-  upgrade_cost: number
-  required_townhall: number
-  required_hero_tavern_level?: number
-}
-
-export interface Pet {
-  _id: number
-  name: string
-  info: string
-  TID: Tid8
-  production_building: string
-  production_building_level: number
-  upgrade_resource: string
-  is_flying: boolean
-  is_air_targeting: boolean
-  is_ground_targeting: boolean
-  movement_speed: number
-  attack_speed: number
-  attack_range: number
   levels: Level8[]
 }
 
@@ -288,6 +286,38 @@ export interface Level8 {
   dps: number
   upgrade_time: number
   upgrade_cost: number
+  required_townhall: number
+  required_hero_tavern_level?: number
+}
+
+export interface Pet {
+  _id: number
+  name: string
+  info: string
+  TID: Tid9
+  production_building: string
+  production_building_level: number
+  upgrade_resource: string
+  is_flying: boolean
+  is_air_targeting: boolean
+  is_ground_targeting: boolean
+  movement_speed: number
+  attack_speed: number
+  attack_range: number
+  levels: Level9[]
+}
+
+export interface Tid9 {
+  name: string
+  info: string
+}
+
+export interface Level9 {
+  level: number
+  hitpoints: number
+  dps: number
+  upgrade_time: number
+  upgrade_cost: number
   lab_level: number
   required_townhall: number
 }
@@ -296,21 +326,21 @@ export interface Equipment {
   _id: number
   name: string
   info: string
-  TID: Tid9
+  TID: Tid10
   production_building: string
   production_building_level: number
   rarity: string
   hero: string
-  levels: Level9[]
+  levels: Level10[]
 }
 
-export interface Tid9 {
+export interface Tid10 {
   name: string
   info: string
   production_building: string
 }
 
-export interface Level9 {
+export interface Level10 {
   level: number
   hitpoints: any
   dps?: number
@@ -361,6 +391,7 @@ export interface MainAbility {
   AttackRange?: number
   CastSpellLevel?: number
   ActivationCooldown?: number
+  ProjectileOnActivationCount?: number
 }
 
 export interface ExtraAbility {
@@ -374,24 +405,24 @@ export interface ExtraAbility {
 export interface Decoration {
   _id: number
   name: string
-  TID: Tid10
+  TID: Tid11
   width: number
   not_in_shop?: boolean
   pass_reward?: boolean
   max_count: number
-  build_resource: string
+  build_resource?: string
   build_cost: number
   village_type: string
 }
 
-export interface Tid10 {
+export interface Tid11 {
   name: string
 }
 
 export interface Obstacle {
   _id: number
   name: string
-  TID: Tid11
+  TID: Tid12
   width: number
   clear_resource: string
   clear_cost: number
@@ -400,31 +431,31 @@ export interface Obstacle {
   village_type: string
 }
 
-export interface Tid11 {
+export interface Tid12 {
   name: string
 }
 
 export interface Scenery {
   _id: number
   name: string
-  TID: Tid12
+  TID: Tid13
   type: string
   music?: string
 }
 
-export interface Tid12 {
+export interface Tid13 {
   name: string
 }
 
 export interface Skin {
   _id: number
   name: string
-  TID: Tid13
+  TID: Tid14
   tier?: string
   character: string
 }
 
-export interface Tid13 {
+export interface Tid14 {
   name: string
 }
 
@@ -439,18 +470,18 @@ export interface Helper {
   _id: number
   name: string
   info: string
-  TID: Tid14
+  TID: Tid15
   gender: string
   upgrade_resource: string
-  levels: Level10[]
+  levels: Level11[]
 }
 
-export interface Tid14 {
+export interface Tid15 {
   name: string
   info: string
 }
 
-export interface Level10 {
+export interface Level11 {
   required_townhall: number
   upgrade_cost: number
   boost_time_seconds: number
@@ -460,14 +491,14 @@ export interface Level10 {
 export interface WarLeague {
   _id: number
   name: string
-  TID: Tid15
+  TID: Tid16
   cwl_medals: CwlMedals
   promotions: number
   demotions: number
   "15v15_only": boolean
 }
 
-export interface Tid15 {
+export interface Tid16 {
   name: string
 }
 
@@ -481,7 +512,7 @@ export interface CwlMedals {
 export interface LeagueTier {
   name: string
   league_tier: number
-  TID: Tid16
+  TID: Tid17
   group_size: number
   demote_percentage?: number
   promote_percentage?: number
@@ -492,7 +523,7 @@ export interface LeagueTier {
   rewards: Reward[]
 }
 
-export interface Tid16 {
+export interface Tid17 {
   name: string
 }
 

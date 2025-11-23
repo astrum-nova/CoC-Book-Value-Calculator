@@ -1,21 +1,36 @@
-<h1>Book Of Heroes</h1>
-<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
-  <div style="margin-right: 10px; width: 20%">
-    <p>Time discount %:</p>
-    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
-  </div>
-  <div style="margin-right: 10px; width: 20%">
-    <p>Builders:</p>
-    <input style="height: 20px; width: 50px;" [(ngModel)]="builders">
-  </div>
-  <div style="width: 70%">
-    <p>5 BUILDER POTIONS + 15 MEDALS {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF HEROES</p>
-    <p>({{builders * 9 * 5}} HOURS SKIPPED OVER 5 HOURS) {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
-  </div>
+<div style="border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <h1 id="poh" style="text-align: center; border-radius: 12px; margin: 0; padding: 10px; cursor: pointer; width: 97%;" (click)="poh = !poh">Potions vs Hammer</h1>
+  @if (poh) {
+    <div style="display: flex">
+      <div style="margin-right: 10px; width: 25%">
+        <h3>Time discount %:</h3>
+        <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+      </div>
+      <div style="margin-right: 10px; width: 20%">
+        <h3>Builders:</h3>
+        <input style="height: 20px; width: 50px;" [(ngModel)]="builders">
+      </div>
+      <div style="width: 70%">
+        <h3>5 BUILDER POTIONS + 15 MEDALS {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF HEROES</h3>
+        <h3>({{builders * 9 * 5}} HOURS SKIPPED OVER 5 HOURS) {{builders * 9 * 5 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</h3>
+      </div>
+    </div>
+    <h3 (click)="showPetsReason = !showPetsReason" style="cursor: pointer;">
+      Pets are excluded from this calculation! (click to see/hide why)
+      @if (showPetsReason) {
+        <p>
+          Since you cant buy pet potions from the league shop there is no reason to include pets here, if it says you should buy a hammer instead of builder potions it is because of the first hero listed here.
+        </p>
+      }
+    </h3>
+  }
 </div>
-<h3 *ngFor="let hero of heroes" style="border: 3px solid #ff8125; margin: 10px; padding: 20px; border-radius: 20px">
-  HERO: {{hero.name}} <br>
-  CURRENT LEVEL: {{hero.level}} <br>
-  NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : 'MAXED FOR CURRENT HERO HALL'}} <br>
-  UPGRADE TIME: {{hero.time != -1 ? secondsToDuration(hero.time) : 'MAXED FOR CURRENT HERO HALL'}}
-</h3>
+<h1>Book Of Heroes <span id="toggle-pets" (click)="showPets = !showPets; recalculate()">Toggle Pets</span></h1>
+<div style="padding-bottom: 30px">
+  <h3 *ngFor="let hero of heroes" style="border: 3px solid {{hero.pet ? 'white' : '#ff8125'}}; margin: 10px; padding: 20px; border-radius: 20px;">
+    {{hero.pet ? 'PET' : 'HERO'}}: {{hero.name}} <br>
+    CURRENT LEVEL: {{hero.level}}<span style="color: grey">/{{hero.max}}</span> <br>
+    NEXT LEVEL: {{hero.time != -1 ? hero.level + 1 : hero.pet ? 'MAXED FOR CURRENT PET HOUSE' : 'MAXED FOR CURRENT HERO HALL'}} <br>
+    UPGRADE TIME: {{hero.time != -1 ? secondsToDuration(hero.time) : hero.pet ? 'MAXED FOR CURRENT PET HOUSE' : 'MAXED FOR CURRENT HERO HALL'}}
+  </h3>
+</div>

@@ -1,0 +1,17 @@
+#poh:hover {
+  background-color: #606060;
+}
+#poh {
+  background-color: #2F3136;
+}
+#toggle-pets {
+  color: darkgrey;
+  cursor: pointer;
+  font-size: 50%;
+  border-radius: 10px;
+  background-color: #2F3136;
+  padding: 10px;
+}
+#toggle-pets:hover {
+  background-color: #606060;
+}

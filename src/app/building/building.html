@@ -1,21 +1,29 @@
-<h1>Book Of Building</h1>
-<div style="display: flex; border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
-  <div style="margin-right: 10px; width: 20%">
-    <p>Time discount %:</p>
-    <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
-  </div>
-  <div style="margin-right: 10px; width: 20%;">
-    <p>Builders:</p>
-    <input style="height: 20px; width: 50px; margin-right: 10px" [(ngModel)]="builders">
-  </div>
-  <div style="width: 70%">
-    <p>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </p>
-    <p>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</p>
-  </div>
+<div style="border: 3px solid gold; border-radius: 20px; margin: 10px; padding: 20px">
+  <h1 id="poh" style="text-align: center; border-radius: 12px; margin: 0; padding: 10px; cursor: pointer; width: 97%;" (click)="poh = !poh">Potions vs Hammer</h1>
+  @if (poh) {
+    <div style="display: flex">
+      <div style="margin-right: 10px; width: 25%">
+        <h3>Time discount %:</h3>
+        <input style="height: 20px; width: 50px;" [(ngModel)]="discount" (input)="recalculate()">
+      </div>
+      <div style="margin-right: 10px; width: 20%;">
+        <h3>Builders:</h3>
+        <input style="height: 20px; width: 50px; margin-right: 10px" [(ngModel)]="builders">
+      </div>
+      <div style="width: 70%">
+        <h3>4 BUILDER POTIONS {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} 1 HAMMER OF BUILDING </h3>
+        <h3>({{builders * 9 * 4}} HOURS SKIPPED OVER 4 HOURS) {{builders * 9 * 4 > maxTime / 60 / 60 ? '>>' : '<<'}} ({{maxTime / 60 / 60}} HOURS SKIPPED INSTANTLY)</h3>
+      </div>
+    </div>
+  }
 </div>
-<h3 *ngFor="let building of buildings" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
-  BUILDING: {{building.name}} <br>
-  CURRENT LEVEL: {{building.level}} <br>
-  NEXT LEVEL: {{building.time != -1 ? building.level + 1 : 'MAXED FOR CURRENT TOWN HALL'}} <br>
-  UPGRADE TIME: {{building.time != -1 ? secondsToDuration(building.time) : 'MAXED FOR CURRENT TOWN HALL'}}
-</h3>
+<h1>Book Of Building</h1>
+
+<div style="padding-bottom: 30px">
+  <h3 *ngFor="let building of buildings" style="border: 3px solid #00e1ff; margin: 10px; padding: 20px; border-radius: 20px">
+    BUILDING: {{building.name}} <br>
+    CURRENT LEVEL: {{building.level}}<span style="color: grey">/{{building.max}}</span> <br>
+    NEXT LEVEL: {{building.time != -1 ? building.level + 1 : 'MAXED FOR CURRENT TOWN HALL'}} <br>
+    UPGRADE TIME: {{building.time != -1 ? secondsToDuration(building.time) : 'MAXED FOR CURRENT TOWN HALL'}}
+  </h3>
+</div>

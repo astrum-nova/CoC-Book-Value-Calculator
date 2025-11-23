@@ -1,4 +1,5 @@
-<h1>BOOK VALUE CALCULATOR DEV UI -heromaxfix</h1>
+<h1>BOOK VALUE CALCULATOR DEV UI</h1>
+<p>This tool helps you pick the best upgrades to use books on, and also helps you decide what to buy with your CWL medals. It wont show currently ongoing upgrades and maxed buildings/troops (with the exception of heroes and pets which tell you if theyre maxed for their key building).</p>
 <label>PLAYER JSON DATA</label>
 <input
   type="text"
@@ -10,7 +11,7 @@
 <button routerLink="/fighting">FIGHTING</button>
 <button routerLink="/heroes">HEROES</button>
 <button routerLink="/spells">SPELLS</button>
-@if (playerData!.tag == null || playerData!.tag === 'ERROR') {
+@if (playerData! == undefined || playerData!.tag === 'ERROR') {
   @if (playerData!.tag === 'ERROR') {
     <h1>ERROR PARSING PLAYER DATA, MAKE SURE THE DATA YOU PROVIDED IS CORRECT</h1>
   }
@@ -18,3 +19,17 @@
 } @else {
   <router-outlet></router-outlet>
 }
+<div style="position: fixed; top: 95%; right: 0; justify-items: center; background-color: #363940; border-top: 1px solid white; width: 100%; height: 100%">
+  <p style="margin-top: 10px">Made by Astrum Nova, <a href="https://github.com/astrum-nova/CoC-Book-Value-Calculator">Github Repository</a></p>
+</div>
+<!--
+  GUARDIAN FIX 1.0.2:
+  - fixed guardians
+  - hide building/troop if currently upgrading
+  - custom names for buildings/troops/sieges/pets etc
+  - made footer taller so it looks good on mobile
+  - moved changelog and todos inside app.html as a comment
+  TO DO:
+  - mobile compatibility 😭
+  - maybe add timer functionality, only buildings currently upgrading have this field
+-->
